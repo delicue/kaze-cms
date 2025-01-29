@@ -2,7 +2,9 @@
 
 </script>
 <template>
-    <main class="h-screen text-center place-items-center bg-slate-200 text-slate-800">
-        <div>Hello</div>
+    <main class="h-screen text-center bg-slate-200 text-slate-800">
+        <div>
+            <a href="/admin">Admin Panel</a>
+        </div>
     </main>
 </template>

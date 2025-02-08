@@ -34,10 +34,10 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->primary()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->unique()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

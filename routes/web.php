@@ -2,10 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -27,6 +24,8 @@ use Inertia\Inertia;
 // });
 
 Route::get('/', HomeController::class);
-Route::resource('posts', PostController::class)->only(['index', 'show']);
+// Route::resource('posts', PostController::class)->only(['index', 'show']);
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
 
 require __DIR__.'/auth.php';

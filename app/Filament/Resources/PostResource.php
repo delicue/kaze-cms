@@ -29,28 +29,28 @@ class PostResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('slug')
                     ->prefix('/')
-                    ->unique()
                     ->required(),
-                Forms\Components\Select::make('author_id')
+                Forms\Components\Select::make('user_id')
                     ->label('Author')
                     ->options(User::all()->pluck('name', 'id'))
                     ->native(false)
                     ->searchable(),
                 Forms\Components\TextInput::make('title')
                     ->placeholder('Post title')
-                    ->unique()
                     ->required(),
                 Forms\Components\RichEditor::make('content')
                     ->disableGrammarly()
                     ->columnSpanFull(),
                 Forms\Components\Select::make('category_id')
                     ->label('Category')
+                    ->nullable()
                     ->options(Category::all()->pluck('name', 'id'))
                     ->createOptionForm([
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->unique(),
                     ])
+                    //Allow creation of new category
                     ->createOptionUsing(function (array $data): int {
                         return DB::table('categories')
                             ->insert([
@@ -76,12 +76,21 @@ class PostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('slug')
+                    ->prefix('/')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('author')
+                Tables\Columns\TextColumn::make('author_id')
+                    ->label('Author')
+                    ->state(function ($record) {
+                        return $record->author->name;
+                    })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('category')
+                Tables\Columns\TextColumn::make('category_id')
+                    ->label('Category')
+                    ->state(function ($record) {
+                        return $record->category->name;
+                    })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
@@ -98,6 +107,7 @@ class PostResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

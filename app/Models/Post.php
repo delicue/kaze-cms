@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Post extends Model
 {
@@ -13,10 +14,10 @@ class Post extends Model
 
     protected $fillable = [
         'slug',
-        'author',
+        'user_id',
         'title',
         'content',
-        'category',
+        'category_id',
         'status',
     ];
     
@@ -32,7 +33,7 @@ class Post extends Model
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id')->withDefault([
+        return $this->belongsTo(User::class)->withDefault([
             'name' => 'Guest'
         ]);
     }
@@ -47,8 +48,8 @@ class Post extends Model
         return $this->content;
     }
 
-    public function category(): string
+    public function category(): BelongsTo
     {
-        return $this->category;
+        return $this->belongsTo(Category::class);
     }
 }

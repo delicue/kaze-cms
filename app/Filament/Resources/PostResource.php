@@ -75,24 +75,33 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->prefix('/')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('author_id')
                     ->label('Author')
+                    ->sortable()
                     ->state(function ($record) {
                         return $record->author->name;
                     })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category_id')
                     ->label('Category')
+                    ->sortable()
                     ->state(function ($record) {
                         return $record->category->name;
                     })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

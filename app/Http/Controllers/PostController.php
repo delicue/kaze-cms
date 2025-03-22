@@ -4,18 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
-        Inertia::render('Posts/Index', [
-            'posts' => Post::all(),
+        return Inertia::render('Posts/Index', [
+            'posts' => Post::with(['category', 'user'])->paginate(10)->items(),
+            // 'categories' => Category::all(),
+            // 'users' => User::all(),
         ]);
     }
 
@@ -38,11 +43,12 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(Post $post): Response
     {
-        $post = Post::all()->where('id', '=', $id);
-        Inertia::render('Posts/Show', [
+        return Inertia::render('Posts/Show', [
             'post' => $post,
+            'category' => Category::find($post->category()) ?? 'Uncategorized',
+            'user' => User::find($post->user_id)->name ?? 'Unknown',
         ]);
     }
 

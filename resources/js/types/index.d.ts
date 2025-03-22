@@ -5,6 +5,23 @@ export interface User {
     name: string;
     email: string;
     email_verified_at?: string;
+    role: string;
+}
+
+export interface Post {
+    id: number;
+    slug: string;
+    title: string;
+    content: string;
+    user: string;
+    category: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Category {
+    id: number;
+    name: string;
 }
 
 export type PageProps<

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Post extends Model
 {
@@ -30,11 +31,9 @@ class Post extends Model
         return $this->slug;
     }
 
-    public function author(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class)->withDefault([
-            'name' => 'Guest'
-        ]);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function title(): string

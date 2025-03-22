@@ -22,7 +22,7 @@ class PostFactory extends Factory
             'title' => $this->faker->sentence,
             'content' => $this->faker->paragraph,
             'category_id' => 1,
-            'status' => 'published',
+            'status' => 'draft',
         ];
     }
 }
